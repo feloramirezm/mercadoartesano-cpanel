@@ -1,0 +1,25 @@
+name: Deploy via FTP to cPanel
+
+on:
+  push:
+    branches: [ "main" ]      # despliega cada push a main
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # necesario para detectar archivos borrados
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server:   ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          protocol: ftps          # usa FTPS explícito (TLS) en el puerto 21
+          local-dir: ./           # raíz del repo
+          server-dir: /public_html/mercadoartesano/
+          log-level: standard
