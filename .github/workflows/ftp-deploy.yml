@@ -20,6 +20,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           protocol: ftps          # usa FTPS explícito (TLS) en el puerto 21
+          port: 21
           local-dir: ./           # raíz del repo
           server-dir: /public_html/mercadoartesano/
           log-level: standard
