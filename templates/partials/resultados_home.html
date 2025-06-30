@@ -1,0 +1,57 @@
+{% load humanize %}
+{% if productos %}
+    <div class="section-title4 text-start mb-4">
+        <h4 class="sub-title">
+        {% if termino and categoria_nombre %}
+            Resultados para “{{ termino }}” en {{ categoria_nombre }}
+        {% elif termino %}
+            Resultados para “{{ termino }}” en Todas las categorías
+        {% elif categoria_nombre %}
+            Resultados para {{ categoria_nombre }}
+        {% else %}
+            Resultados para todas las categorías
+        {% endif %}
+        </h4>
+        <p class="text-body-light">Mostrando {{ productos|length }} de {{ total }} resultados</p>
+    </div>
+
+    <div class="products row row-cols-lg-5 row-cols-md-3 row-cols-sm-2 row-cols-2">        
+        {% for producto in productos %}
+            <div class="col mb-4">
+                <div class="product">
+                    <div class="product-thumb">
+                        <a href="{% url 'detalle_producto' slug=producto.slug %}" class="image">
+                            {% if producto.descuento %}
+                                <span class="product-badges">
+                                    <span class="onsale">-{{ producto.descuento }}%</span>
+                                </span>
+                            {% endif %}
+                            <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                            <img class="image-hover" src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                        </a>
+                        <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos"><i class="far fa-heart"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h6 class="title">
+                            <a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a>
+                        </h6>
+                        <span class="price">
+                            {% if producto.precio_anterior %}
+                                <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                            {% endif %}
+                            <span class="new">${{ producto.precio|intcomma }}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="/tienda/?q={{ termino }}{% if categoria %}&categoria={{ categoria }}{% endif %}" class="btn btn-outline-dark btn-hover-primary">
+            Ver todos los resultados →
+        </a>
+    </div>
+{% else %}
+    <p class="text-muted text-center mt-4">No se encontraron resultados.</p>
+{% endif %}

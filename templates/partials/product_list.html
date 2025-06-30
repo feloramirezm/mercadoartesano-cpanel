@@ -1,0 +1,35 @@
+{% load humanize %}
+{% for producto in productos %}
+<div class="grid-item col 
+    {% if producto.destacado %} destacado{% endif %}
+    {% if producto.en_oferta %} en_oferta{% endif %}
+    {% if producto.mas_vendido %} mas_vendido{% endif %}">
+    <div class="product">
+        <div class="product-thumb">
+            <a href="{% url 'detalle_producto' slug=producto.slug %}" class="image">
+                {% if producto.descuento %}
+                    <span class="product-badges">
+                        <span class="onsale">-{{ producto.descuento }}%</span>
+                    </span>
+                {% endif %}
+                <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                <img class="image-hover" src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+            </a>
+            <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos"><i class="far fa-heart"></i></a>
+        </div>
+        <div class="product-info">
+            <h6 class="title"><a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a></h6>
+            <span class="price">
+                {% if producto.precio_anterior %}
+                    <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                {% endif %}
+                <span class="new">${{ producto.precio|intcomma }}</span>
+            </span>
+            <div class="product-buttons">
+                <a href="#quickViewModal" data-bs-toggle="modal" class="product-button hintT-top" data-hint="Ver detalles" data-product-id="{{ producto.id }}"><i class="fas fa-search"></i></a>
+                <a href="#" class="product-button hintT-top" data-hint="Agregar al Carrito"><i class="fas fa-shopping-cart"></i></a>    
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

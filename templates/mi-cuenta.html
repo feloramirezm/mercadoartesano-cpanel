@@ -1,0 +1,159 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+
+    <!-- My Account Section Start -->
+    <div class="section section-padding">
+        <div class="container">
+            <div class="row learts-mb-n30">
+
+                <!-- My Account Tab List Start -->
+                <div class="col-lg-4 col-12 learts-mb-30">
+                    <div class="myaccount-tab-list nav">
+                        <a href="#dashboad" class="active" data-bs-toggle="tab">Panel de Cuenta <i class="far fa-home"></i></a>
+                        <a href="#orders" data-bs-toggle="tab">Mis Compras <i class="far fa-file-alt"></i></a>
+                        <a href="#account-info" data-bs-toggle="tab">Mi Cuenta <i class="far fa-user"></i></a>
+                        <a href="{% url 'logout' %}">Logout <i class="far fa-sign-out-alt"></i></a>
+                    </div>
+                </div>
+                <!-- My Account Tab List End -->
+
+                <!-- My Account Tab Content Start -->
+                <div class="col-lg-8 col-12 learts-mb-30">
+                    <div class="tab-content">
+
+                        <!-- Single Tab Content Start -->
+                        <div class="tab-pane fade show active" id="dashboad">
+                            <div class="myaccount-content dashboad">
+                                <p>Hola <strong>{{ request.user.nombre }}</strong> (no eres <strong>{{ request.user.nombre }}</strong>? <a href="{% url 'logout' %}">Logout</a>)</p>
+                                <p>Desde tu panel de cuenta puedes ver 
+                                    
+                                    <a href="#orders" data-bs-toggle="tab"><span>tus pedidos recientes</span></a>, y
+                                    <a href="#account-info" data-bs-toggle="tab"><span>editar tu contraseña</span></a> o tus 
+                                    <a href="#account-info" data-bs-toggle="tab"><span>datos personales</span></a>.</p>
+                            </div>
+                        </div>
+                        <!-- Single Tab Content End -->
+
+                        <!-- Single Tab Content Start -->
+                        <div class="tab-pane fade" id="orders">
+                            <div class="myaccount-content order">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Aug 22, 2018</td>
+                                                <td>Pending</td>
+                                                <td>$3000</td>
+                                                <td><a href="#">View</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>July 22, 2018</td>
+                                                <td>Approved</td>
+                                                <td>$200</td>
+                                                <td><a href="#">View</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>June 12, 2017</td>
+                                                <td>On Hold</td>
+                                                <td>$990</td>
+                                                <td><a href="#">View</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Tab Content End -->
+
+
+                        <!-- Single Tab Content Start -->
+                        <div class="tab-pane fade" id="account-info">
+                            <div class="myaccount-content account-details">
+                                <div class="account-details-form">
+                                    <form method="post" action="{% url 'actualizar_datos' %}">
+                                        {% csrf_token %}
+                                        <div class="row learts-mb-n30">
+                                            <div class="col-md-6 col-12 learts-mb-30">
+                                                <div class="single-input-item">
+                                                    <label for="nombre">Nombre <abbr class="required">*</abbr></label>
+                                                    <input type="text" id="nombre" name="nombre" value="{{ request.user.nombre }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 learts-mb-30">
+                                                <label for="email">Correo electrónico </label>
+                                                <input type="email" id="email" name="email" value="{{ request.user.email }}" readonly>
+                                            </div>
+                                            <div class="col-12 learts-mb-30 learts-mt-30">
+                                                <fieldset>
+                                                    <legend>Cambio de contraseña</legend>
+                                                    <div class="row learts-mb-n30">
+                                                        <div class="col-12 learts-mb-30">
+                                                            <label for="current-pwd">Contraseña actual (dejar en blanco para no modificar)</label>
+                                                            <input type="password" id="current-pwd" name="password_actual">
+                                                        </div>
+                                                        <div class="col-12 learts-mb-30">
+                                                            <label for="new-pwd">Nueva contraseña (dejar en blanco para no modificar)</label>
+                                                            <input type="password" id="new-pwd" name="password_nueva1">
+                                                        </div>
+                                                        <div class="col-12 learts-mb-30">
+                                                            <label for="confirm-pwd">Confirmar nueva contraseña</label>
+                                                            <input type="password" id="confirm-pwd" name="password_nueva2">
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-12 learts-mb-30">
+                                                <button class="btn btn-dark btn-outline-hover-dark">Guardar cambios</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> <!-- Single Tab Content End -->
+
+                    </div>
+                </div> <!-- My Account Tab Content End -->
+            </div>
+        </div>
+    </div>
+    <!-- My Account Section End -->
+
+<!-- Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash;
+    if (hash) {
+        const tabTrigger = document.querySelector(`.myaccount-tab-list a[href="${hash}"]`);
+        if (tabTrigger) {
+            const tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    }
+
+    // Permite activar tabs desde cualquier enlace en la página
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const tabTrigger = document.querySelector(`.myaccount-tab-list a[href="${this.getAttribute('href')}"]`);
+            if (tabTrigger) {
+                const tab = new bootstrap.Tab(tabTrigger);
+                tab.show();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

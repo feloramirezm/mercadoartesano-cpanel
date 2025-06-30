@@ -1,0 +1,861 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mercado Artesano</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.png' %}">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Vendor CSS (Bootstrap & Icon Font) -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/customFonts.css' %}">
+
+    <!-- Plugins CSS (All Plugins Files) -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/swiper.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/ion.rangeSlider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/photoswipe.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/photoswipe-default-skin.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/slick.css' %}">
+
+    <!-- Main Style CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.min.css' %}">
+
+</head>
+
+<body>
+<!-- Topbar Section Start -->
+<div class="topbar-section section bg-dark">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md-auto col-12">
+                <!-- Espacio para texto en barra negra, puede servir para promociones -->
+                <p class="text-white text-center text-md-left my-2"></p>
+            </div>
+            <div class="col-auto d-none d-md-block">
+                <div class="topbar-menu">
+                    <ul>
+                        <!-- Icono de pin mapa usado para agregar "ubicacion de tiendas" y de "seguimiento a pedidos" (apagados)
+                        <li><a class="text-white" href="#"><i class="fa fa-map-marker-alt"></i>Store Location</a></li> -->
+                        <li><a class="text-white" href="#"><i class="fa fa-truck"></i>Envíos a todo Chile</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Topbar Section End -->
+
+<!-- INICIO MENU SUPERIOR (LOGO, ICONOS, MENU PRINCIPAL PARA WEB Y MOBILE)-->
+
+<!-- Header Section Start -->
+<div class="header-section section bg-white d-none d-xl-block">
+    <div class="container">
+        <div class="row row-cols-lg-3 align-items-center">
+            <!-- Header Language & Currency Start -->
+            <div class="col">
+                <ul class="header-lan-curr">
+                    <!-- Botones para cambiar idioma (Apagados)
+                    <li><a href="#">English</a>
+                        <ul class="curr-lan-sub-menu">
+                            <li><a href="#">Français</a></li>
+                            <li><a href="#">Deutsch</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">USD</a>
+                        <ul class="curr-lan-sub-menu">
+                            <li><a href="#">EUR</a></li>
+                            <li><a href="#">GBP</a></li>
+                        </ul>
+                    </li>
+                    -->
+                </ul>
+            </div>
+            <!-- Header Language & Currency End -->
+            <!-- Header Logo Start -->
+            <div class="col">
+                <div class="header-logo justify-content-center">
+                    <a href="{% url 'inicio' %}"><img alt="Mercado Artesano" src="{% static 'assets/images/logo/logo.png' %}"/></a>
+                </div>
+            </div>
+            <!-- Header Logo End -->
+
+            <!-- Header Tools Start -->
+            <div class="col">
+                <div class="header-tools justify-content-end">
+                    <div class="header-login">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'cuenta' %}"><i class="fas fa-user"></i></a>
+                        {% else %}
+                            <a href="{% url 'login-registro' %}"><i class="far fa-user"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="header-search">
+                        <a class="offcanvas-toggle" href="#offcanvas-search"><i class="fas fa-search"></i></a>
+                    </div>
+                    <div class="header-wishlist">
+                        <a class="offcanvas-toggle" href="#offcanvas-wishlist"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                    </div>
+                    <div class="header-cart">
+                        <a class="offcanvas-toggle" href="#offcanvas-cart"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                    </div>
+                </div>
+            </div>
+        <!-- Header Tools End -->
+        </div>
+    </div>
+    <!-- Site Menu Section Start -->
+    <div class="site-menu-section section">
+        <div class="container">
+            <nav class="site-main-menu justify-content-center">
+                <ul>
+                    <li><a href="{% url 'inicio' %}"><span class="menu-text">Inicio</span></a></li>
+                    <li><a href="{% url 'tienda' %}"><span class="menu-text">Tienda</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- Site Menu Section End -->
+</div>
+<!-- Header Section End -->
+
+<!-- Header Sticky Section Start -->
+<div class="sticky-header header-menu-center section bg-white d-none d-xl-block">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Header Logo Start -->
+            <div class="col">
+                <div class="header-logo">
+                    <a href="{% url 'inicio' %}"><img alt="Mercado Artesano" src="{% static 'assets/images/logo/logo-2.png' %}"/></a>
+                </div>
+            </div>
+            <!-- Header Logo End -->
+            <!-- Search Start -->
+            <div class="col d-none d-xl-block">
+                <nav class="site-main-menu justify-content-center">
+                    <ul>
+                        <li><a href="{% url 'inicio' %}"><span class="menu-text">Inicio</span></a></li>
+                        <li><a href="{% url 'tienda' %}"><span class="menu-text">Tienda</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        <!-- Search End -->
+
+        <!-- Header Tools Start -->
+        <div class="col-auto">
+            <div class="header-tools justify-content-end">
+                <div class="header-login">
+                    <a href="{% url 'cuenta' %}"><i class="far fa-user"></i></a>
+                </div>
+                <div class="header-search d-none d-sm-block">
+                    <a class="offcanvas-toggle" href="#offcanvas-search"><i class="fas fa-search"></i></a>
+                </div>
+                <div class="header-wishlist">
+                    <a class="offcanvas-toggle" href="#offcanvas-wishlist"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                </div>
+                <div class="header-cart">
+                    <a class="offcanvas-toggle" href="#offcanvas-cart"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                </div>
+                <div class="mobile-menu-toggle d-xl-none">
+                    <a class="offcanvas-toggle" href="#offcanvas-mobile-menu">
+                        <svg viewbox="0 0 800 600">
+                            <path class="top" d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"></path>
+                            <path class="middle" d="M300,320 L540,320"></path>
+                            <path class="bottom" d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Header Tools End -->
+        </div>
+    </div>
+</div>
+<!-- Header Sticky Section End -->
+
+<!-- Mobile Header Section Start -->
+<div class="mobile-header bg-white section d-xl-none">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Header Logo Start -->
+            <div class="col">
+                <div class="header-logo">
+                    <a href="{% url 'inicio' %}"><img alt="Mercado Artesano" src="{% static 'assets/images/logo/logo-2.png' %}"/></a>
+                </div>
+            </div>
+            <!-- Header Logo End -->
+            <!-- Header Tools Start -->
+            <div class="col-auto">
+                <div class="header-tools justify-content-end">
+                    <div class="header-login d-none d-sm-block">
+                        <a href="{% url 'cuenta' %}"><i class="far fa-user"></i></a>
+                    </div>
+                    <div class="header-search d-none d-sm-block">
+                        <a class="offcanvas-toggle" href="#offcanvas-search"><i class="fas fa-search"></i></a>
+                    </div>
+                    <div class="header-wishlist d-none d-sm-block">
+                        <a class="offcanvas-toggle" href="#offcanvas-wishlist"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                    </div>
+                    <div class="header-cart">
+                        <a class="offcanvas-toggle" href="#offcanvas-cart"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                    </div>
+                    <div class="mobile-menu-toggle">
+                        <a class="offcanvas-toggle" href="#offcanvas-mobile-menu">
+                            <svg viewbox="0 0 800 600">
+                                <path class="top" d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"></path>
+                                <path class="middle" d="M300,320 L540,320"></path>
+                                <path class="bottom" d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Header Tools End -->
+        </div>
+    </div>
+</div>
+<!-- Mobile Header Section End -->
+
+<!-- Mobile Header Section Start -->
+<div class="mobile-header sticky-header bg-white section d-xl-none">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Header Logo Start -->
+            <div class="col">
+                <div class="header-logo">
+                    <a href="{% url 'inicio' %}"><img alt="Mercado Artesano" src="{% static 'assets/images/logo/logo-2.png' %}"/></a>
+                </div>
+            </div>
+            <!-- Header Logo End -->
+            <!-- Header Tools Start -->
+            <div class="col-auto">
+                <div class="header-tools justify-content-end">
+                    <div class="header-login d-none d-sm-block">
+                        <a href="{% url 'cuenta' %}"><i class="far fa-user"></i></a>
+                    </div>
+                    <div class="header-search d-none d-sm-block">
+                        <a class="offcanvas-toggle" href="#offcanvas-search"><i class="fas fa-search"></i></a>
+                    </div>
+                    <div class="header-wishlist d-none d-sm-block">
+                        <a class="offcanvas-toggle" href="#offcanvas-wishlist"><span class="wishlist-count">3</span><i class="far fa-heart"></i></a>
+                    </div>
+                    <div class="header-cart">
+                        <a class="offcanvas-toggle" href="#offcanvas-cart"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                    </div>
+                    <div class="mobile-menu-toggle">
+                        <a class="offcanvas-toggle" href="#offcanvas-mobile-menu">
+                            <svg viewbox="0 0 800 600">
+                                <path class="top" d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"></path>
+                                <path class="middle" d="M300,320 L540,320"></path>
+                                <path class="bottom" d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Header Tools End -->
+        </div>
+    </div>
+</div>
+<!-- Mobile Header Section End -->
+
+<!-- OffCanvas Search Start -->
+<div class="offcanvas offcanvas-search" id="offcanvas-search">
+    <div class="inner">
+        <p class="search-description text-body-light mt-2"> <span># Busca tus productos favoritos</span></p>
+        <div class="offcanvas-search-form">
+            <button class="offcanvas-close">×</button>
+            <form action="{% url 'tienda' %}">
+                <div class="row mb-n3">
+                    <div class="col-lg-8 col-12 mb-3">
+                        <input name="q" placeholder="Buscar productos..." type="text"/>
+                    </div>
+                    <div class="col-lg-4 col-12 mb-3">
+                        <select name="categoria" class="search-select" id="categoria-busqueda">
+                            <option value="">Todas las categorías</option>
+                            {% for cat in categorias %}
+                                <option value="{{ cat.slug }}">{{ cat.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div id="search-results" tabindex="0" aria-live="polite" role="region"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- OffCanvas Search End -->
+
+<!-- OffCanvas Wishlist Start -->
+<div class="offcanvas offcanvas-wishlist" id="offcanvas-wishlist">
+    <div class="inner">
+        <div class="head">
+            <span class="title">Favoritos</span>
+            <button class="offcanvas-close">×</button>
+        </div>
+        <div class="body customScroll">
+            <ul class="minicart-product-list">
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-1.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Walnut Cutting Board</a>
+                        <span class="quantity-price">1 x <span class="amount">$100.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-2.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Lucky Wooden Elephant</a>
+                        <span class="quantity-price">1 x <span class="amount">$35.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-3.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Fish Cut Out Set</a>
+                        <span class="quantity-price">1 x <span class="amount">$9.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="foot">
+            <div class="buttons">
+                <a class="btn btn-dark btn-hover-primary" href="{% url 'favoritos' %}">Ir a Favoritos</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- OffCanvas Wishlist End -->
+
+<!-- OffCanvas Cart Start -->
+<div class="offcanvas offcanvas-cart" id="offcanvas-cart">
+    <div class="inner">
+        <div class="head">
+            <span class="title">Carrito</span>
+            <button class="offcanvas-close">×</button>
+        </div>
+        <div class="body customScroll">
+            <ul class="minicart-product-list">
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-1.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Walnut Cutting Board</a>
+                        <span class="quantity-price">1 x <span class="amount">$100.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-2.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Lucky Wooden Elephant</a>
+                        <span class="quantity-price">1 x <span class="amount">$35.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="image" href="#"><img alt="Cart product Image" src="{% static 'assets/images/product/cart-product-3.webp' %}"/></a>
+                    <div class="content">
+                        <a class="title" href="#">Fish Cut Out Set</a>
+                        <span class="quantity-price">1 x <span class="amount">$9.00</span></span>
+                        <a class="remove" href="#">×</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+            <div class="foot">
+                <div class="sub-total">
+                    <strong>Subtotal :</strong>
+                    <span class="amount">$144.00</span>
+                </div>
+            <div class="buttons">
+                <a class="btn btn-dark btn-hover-primary" href="{% url 'carrito' %}">Ver Carrito</a>
+                <a class="btn btn-outline-dark" href="{% url 'checkout' %}">Comprar</a>
+            </div>
+                <p class="minicart-message">Mercado Artesano</p>
+        </div>
+    </div>
+</div>
+<!-- OffCanvas Cart End -->
+
+<!-- OffCanvas Search Start -->
+<div class="offcanvas offcanvas-mobile-menu" id="offcanvas-mobile-menu">
+    <div class="inner customScroll">
+        <div class="offcanvas-menu-search-form">
+            <form action="{% url 'tienda' %}">
+                <input name="q" placeholder="Buscar productos..." type="text"/>
+                <select name="categoria" class="search-select select2-basic">
+                    <option value="">Todas las categorías</option>
+                    {% for cat in categorias %}
+                        <option value="{{ cat.slug }}">{{ cat.nombre }}</option>
+                    {% endfor %}
+                </select>
+                <button><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="offcanvas-menu">
+            <ul>
+                <li><a href="{% url 'inicio' %}"><span class="menu-text">Inicio</span></a></li>
+                <li><a href="{% url 'tienda' %}"><span class="menu-text">Tienda</span></a></li>
+            </ul>
+        </div>
+        <div class="offcanvas-buttons">
+            <div class="header-tools">
+                <div class="header-login">
+                    <a href="{% url 'cuenta' %}"><i class="far fa-user"></i></a>
+                </div>
+                <div class="header-wishlist">
+                    <a href="{% url 'favoritos' %}"><span>3</span><i class="far fa-heart"></i></a>
+                </div>
+                <div class="header-cart">
+                    <a href="{% url 'carrito' %}"><span class="cart-count">3</span><i class="fas fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="offcanvas-social">
+            <!-- <a href="#"><i class="fab fa-facebook-f"></i></a> -->
+            <!-- <a href="#"><i class="fab fa-twitter"></i></a> -->
+            <a href="https://www.instagram.com/mercadoartesanocl"><i class="fab fa-instagram"></i></a>
+            <!-- <a href="#"><i class="fab fa-youtube"></i></a> -->
+        </div>
+    </div>
+</div>
+<!-- OffCanvas Search End -->
+
+<div class="offcanvas-overlay"></div>
+
+<!-- FINAL MENU SUPERIOR (LOGO, ICONOS, MENU PRINCIPAL PARA WEB Y MOBILE)-->
+
+<!-- Slider main container Start -->
+<div class="section section-fluid">
+    <div class="container">
+        <div class="row learts-mb-n30">
+            <div class="col-lg-6 learts-mb-30">
+                <div class="sale-banner4">
+                    <div class="inner">
+                        <img alt="Products Image" src="{% static 'assets/images/banner/sale/sale-arpillera.png' %}"/>
+                        <div class="content">
+                            <h3 class="sub-title">Creado a mano por verdaderos artesanos</h3>
+                            <h2 class="title">Hecho para ti</h2>
+                            <a class="button-banner" href="{% url 'tienda' %}"><img alt="Sale Banner button" src="{% static 'assets/images/banner/sale/desde-banner.png' %}"/></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 learts-mb-30">
+                <div class="row learts-mb-n30">
+                    <div class="col-12 learts-mb-30">
+                        <div class="sale-banner5">
+                            <a class="inner" href="{% url 'tienda' %}?coleccion=dia-de-la-madre">
+                            <img alt="Sale Banner Image" src="{% static 'assets/images/banner/sale/madre-banner.png' %}"/>
+                            <div class="content">
+                                <h3 class="title">Especial<br/>Dia de la Madre</h3>
+                                    <span class="price">Tan unicos como ella - Desde $14.990</span>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                    <div class="col-12 learts-mb-30">
+                        <div class="sale-banner6">
+                            <div class="inner">
+                                <img alt="Sale Banner Image" src="{% static 'assets/images/banner/sale/sale-banner6-1.png' %}"/>
+                                <div class="content">
+                                    <img alt="" class="icon" src="{% static 'assets/images/banner/sale/sale-banner1-1.1.webp' %}"/>
+                                    <h3 class="title">Todo para tu hogar</h3>
+                                    <!-- 40% DESC <img alt="" class="price" src="{% static 'assets/images/banner/sale/sale-banner6-1.1.webp' %}"/> -->
+                                    <a class="link" href="{% url 'tienda' %}">Ir a la Tienda</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Slider main container End -->
+
+<!-- Products Section Start -->
+<div class="section section-padding">
+    <div class="container">
+        <!-- Section Title Start -->
+        <div class="section-title4 text-center">
+            <h2 class="title title-icon-both">Seleccionados para ti</h2>
+        </div>
+        <!-- Section Title End -->
+
+<!-- Product Tab Start -->
+<div class="row">
+    <div class="col-12">
+        <ul class="product-tab-list tab-hover2 nav">
+            <li><a class="active" data-bs-toggle="tab" href="#tab-new-sale">Destacados</a></li>
+            <li><a data-bs-toggle="tab" href="#tab-sale-items">Ofertas</a></li>
+            <li><a data-bs-toggle="tab" href="#tab-best-sellers">Más buscados</a></li>
+        </ul>
+        
+        <div class="prodUct-tab-content1 tab-content">
+            <div class="tab-pane fade show active" id="tab-new-sale">
+                <!-- Products Start -->
+                <div class="products row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                    {% for producto in destacados %}
+                    <div class="col">
+                        <div class="product">
+                            <div class="product-thumb">
+                                <a class="image" href="{% url 'detalle_producto' slug=producto.slug %}">
+                                    {% if producto.imagen_destacada %}
+                                        <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                                    {% endif %}
+                                </a>
+                                {% if producto.descuento %}
+                                    <span class="product-badges">
+                                        <span class="onsale">-{{ producto.descuento }}%</span>
+                                    </span>
+                                {% endif %}
+                                <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos"><i class="far fa-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h6 class="title"><a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a></h6>
+                                <span class="price">
+                                    {% if producto.precio_anterior %}
+                                        <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                                    {% endif %}
+                                    <span class="new">${{ producto.precio|intcomma }}</span>
+                                </span>
+                                <div class="product-buttons">
+                                    <a href="#quickViewModal" data-bs-toggle="modal" class="product-button hintT-top" data-hint="Ver detalles" data-product-id="{{ producto.id }}"><i class="fas fa-search"></i></a>
+                                    <a href="#" class="product-button hintT-top" data-hint="Agregar al Carrito">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>              
+            <!-- Products End -->
+            </div>
+            <div class="tab-pane fade" id="tab-sale-items">
+                <!-- Products Start -->
+                <div class="products row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                    {% for producto in en_oferta %}
+                    <div class="col">
+                        <div class="product">
+                            <div class="product-thumb">
+                                <a class="image" href="{% url 'detalle_producto' slug=producto.slug %}">
+                                    {% if producto.imagen_destacada %}
+                                        <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                                    {% endif %}
+                                </a>
+                                {% if producto.descuento %}
+                                    <span class="product-badges">
+                                        <span class="onsale">-{{ producto.descuento }}%</span>
+                                    </span>
+                                {% endif %}
+                                <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos"><i class="far fa-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h6 class="title"><a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a></h6>
+                                <span class="price">
+                                    {% if producto.precio_anterior %}
+                                        <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                                    {% endif %}
+                                    <span class="new">${{ producto.precio|intcomma }}</span>
+                                </span>
+                                <div class="product-buttons">
+                                    <a href="#quickViewModal" data-bs-toggle="modal" class="product-button hintT-top" data-hint="Ver detalles" data-product-id="{{ producto.id }}">
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                    <a href="#" class="product-button hintT-top" data-hint="Agregar al Carrito">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Products End -->
+            </div>
+            <div class="tab-pane fade" id="tab-best-sellers">
+                <!-- Products Start -->
+                <div class="products row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                {% for producto in mas_vendidos %}
+                    <div class="col">
+                        <div class="product">
+                            <div class="product-thumb">
+                                <a class="image" href="{% url 'detalle_producto' slug=producto.slug %}">
+                                    {% if producto.imagen_destacada %}
+                                        <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                                    {% endif %}
+                                </a>
+                                {% if producto.descuento %}
+                                    <span class="product-badges">
+                                        <span class="onsale">-{{ producto.descuento }}%</span>
+                                    </span>
+                                {% endif %}
+                                <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos"><i class="far fa-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h6 class="title"><a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a></h6>
+                                <span class="price">
+                                    {% if producto.precio_anterior %}
+                                        <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                                    {% endif %}
+                                    <span class="new">${{ producto.precio|intcomma }}</span>
+                                </span>
+                                <!-- Formato para precios antes/despues
+                                <span class="price">
+                                    <span class="old">$45.00</span>
+                                    <span class="new">$39.00</span>
+                                </span>  -->
+                                <div class="product-buttons">
+                                    <a href="#quickViewModal" data-bs-toggle="modal" class="product-button hintT-top" data-hint="Ver detalles" data-product-id="{{ producto.id }}">
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                    <a href="#" class="product-button hintT-top" data-hint="Agregar al Carrito">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Products End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Tab End -->
+
+</div>
+</div>
+<!-- Products Section End -->
+<!-- Sale Banner Start -->
+<div class="section section-padding" data-bg-color="#f4ede7">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12 align-self-center">
+                <div class="product-deal-image text-center">
+                    <img alt="" src="{% static 'assets/images/banner/sale/recien-llegados.png' %}"/>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="sale-banner9 p-0">
+                    <div class="inner">
+                        <div class="content">
+                            <h3 class="title">Recien llegados!</h3>
+                            <span class="cuppon">BIENVENIDOS CON DESCUENTO: <!-- BANDERIN CON CODIGO DE DESUENTO <span class="code">NUEVA15</span>  --></span>
+                            <span class="offer">-15%</span>
+                            <a class="btn btn-dark btn-hover-primary" href="{% url 'tienda' %}?coleccion=recien-llegados">Compra ahora!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale Banner End -->
+
+<!-- Separator -->
+<div class="section">
+    <div class="container">
+        <hr class="m-0"/>
+    </div>
+</div>
+<!-- Separator -->
+
+<!-- Subscribe Section Start -->
+<div class="section learts-pt-60 learts-pb-60" data-bg-image="{% static 'assets/images/bg/bg-3.webp' %}">
+    <div class="container">
+        <div class="row align-items-center learts-mb-n30">
+            <div class="col-lg-5 learts-mb-30">
+                <!-- Section Title Start -->
+                <div class="section-title text-center mb-0">
+                    <h3 class="sub-title">Del taller<br/> directo a tu correo</h3>
+                </div>
+                <!-- Section Title End -->
+            </div>
+            <div class="col-lg-7 learts-mb-30">
+                <span class="d-block h4 text-heading learts-mb-10 text-center text-lg-start">Suscribete a nuestras novedades</span>
+                <form class="mc-form widget-subscibe m-lg-0" id="mc-form">
+                    <input autocomplete="on" id="mc-email" placeholder="Ingresa tu e-mail" type="email"/>
+                    <button class="btn btn-dark" id="mc-submit">subscibe</button>
+                </form>
+                <!-- mailchimp-alerts Start -->
+                <div class="mailchimp-alerts text-centre">
+                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                    <div class="mailchimp-success text-success"></div><!-- mailchimp-success end -->
+                    <div class="mailchimp-error text-danger"></div><!-- mailchimp-error end -->
+                </div><!-- mailchimp-alerts end -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Subscribe Section End -->
+
+<!-- Footer -->
+<div class="footer8-section section section-padding bg-light">
+    <div class="container">
+        <div class="row learts-mb-n40">
+            <!-- COLUMNAS DE CONTACTANOS Y OTROS LINK APAGADAS
+            <div class="col-lg-4 col-sm-6 col-12 learts-mb-40">
+                <h4 class="widget-title">Contact us</h4>
+                <div class="widget-contact2">
+                    <p>58 Howard Street #2 San Francisco <br/> contact@leartsstore.com <br/> <span class="text-heading">(+68)1221 09876</span> <br/> <span class="text-primary">www.learts.com</span></p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12 learts-mb-40">
+                <h4 class="widget-title">Other Links</h4>
+                <ul class="widget-list">
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Store location</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Support Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-sm-6 col-12 learts-mb-40">
+                <h4 class="widget-title">Usefull Links</h4>
+                <ul class="widget-list">
+                    <li><a href="#">How it works</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Babysitters</a></li>
+                    <li><a href="#">Popular posts</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-12 learts-mb-40">
+                <h5 class="widget-title">Follow us on Instagram</h5>
+                <div class="instafeed instafeed-carousel instafeed-carousel2" id="instafeed"></div>
+                </div>
+            </div>-->
+            <div class="row align-items-end learts-mb-n40 learts-mt-40">
+                <div class="col-md-4 col-12 learts-mb-40 order-md-2">
+                    <div class="widget-about text-center">
+                        <img alt="" src="{% static 'assets/images/logo/logo.png' %}"/>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12 learts-mb-40 order-md-3">
+                    <div class="widget-payment text-center text-md-right">
+                        <img alt="" src="{% static 'assets/images/others/pay.png' %}" alt="Webpay" style="max-width: 100px; height: auto;"/>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12 learts-mb-40 order-md-1">
+                <div class="widget-copyright">
+                    <p class="copyright text-center text-md-left">© 2025 Mercado Artesano <br/> Todos los derechos reservados</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Footer -->
+
+<!-- Modal -->
+    <div class="quickViewModal modal fade invisible-quickview" id="quickViewModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <button class="close" data-bs-dismiss="modal">&times;</button>
+                <div class="modal-body">
+                    <!-- Aqui se carga el contenido del Modal Quickview usando AJAX -->
+                </div>                
+            </div>
+        </div>
+    </div>
+
+<!-- JS
+============================================ -->
+<!-- Vendors JS -->
+<script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-migrate-3.1.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+<!-- Plugins JS -->
+<script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/swiper.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/slick.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/mo.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.matchHeight-min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/ion.rangeSlider.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/photoswipe.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/photoswipe-ui-default.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.zoom.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/ResizeSensor.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.sticky-sidebar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/product360.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/scrollax.min.js' %}"></script>
+<!-- Buscador Home JS-->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.querySelector('#offcanvas-search input[name="q"]');
+    const $select = $('#categoria-busqueda');  // ✅ usar jQuery para Select2
+    const resultadosBox = document.querySelector('#search-results');
+
+    $select.select2({
+        width: '100%',
+        minimumResultsForSearch: 0,
+        language: {
+            searching: () => "Buscando Categorías…",
+            noResults: () => "No se encontraron resultados"
+        }
+    });
+
+    function buscarProductos() {
+        const query = input.value.trim();
+        const categoria = $select.val();
+
+        if (query === '' && categoria === '') {
+            resultadosBox.innerHTML = '';
+            return;
+        }
+
+        fetch(`/buscar/ajax/?q=${encodeURIComponent(query)}&categoria=${encodeURIComponent(categoria)}`)
+            .then(response => response.json())
+            .then(data => {
+                resultadosBox.innerHTML = data.html;
+            })
+            .catch(err => {
+                console.error('Error al buscar:', err);
+            });
+    }
+
+    input.addEventListener('keyup', buscarProductos);
+    $select.on('change', buscarProductos);  // ✅ jQuery event
+});
+</script>
+<!-- Use the minified version files listed below for better performance and remove the files listed above -->
+<!-- <script src="assets/js/vendor/vendor.min.js"></script>
+<script src="assets/js/plugins/plugins.min.js"></script> -->
+<!-- Main Activation JS -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

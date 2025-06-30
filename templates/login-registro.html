@@ -1,0 +1,134 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+
+    <!-- Page Title/Header Start -->
+    <div class="page-title-section section" data-bg-image="{% static 'assets/images/bg/page-title-2.png' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                    <div class="page-title">
+                        <h1 class="title">Login & Registro</h1>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+                            <li class="breadcrumb-item active">Login & Registro</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Title/Header End -->
+
+    <!-- Login & Register Section Start -->
+    <div class="section section-padding">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-lg-6">
+                    <div class="user-login-register bg-light">
+                        <div class="login-register-title">
+                            <h2 class="title">Login</h2>
+                            <p class="desc">Nos encanta tenerte de vuelta!</p>
+                        </div>
+                        <div class="login-register-form">
+                            <form method="post" action="{% url 'login-registro' %}">
+                                {% csrf_token %}
+                                {% if login_form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ login_form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+                                <div class="row learts-mb-n50">
+                                    <div class="col-12 learts-mb-50">
+                                        <input name="username" type="email" placeholder="Correo electrónico" value="{{ login_form.username.value|default:'' }}">
+                                        {% if login_form.username.errors %}
+                                            <div class="text-danger">{{ login_form.username.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 learts-mb-50">
+                                        <input name="password" type="password" placeholder="Contraseña">
+                                        {% if login_form.password.errors %}
+                                            <div class="text-danger">{{ login_form.password.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 text-center learts-mb-50">
+                                        <button name="login_submit" class="btn btn-dark btn-outline-hover-dark">login</button>
+                                    </div>
+                                    <div class="col-12 learts-mb-50">
+                                        <div class="row learts-mb-n20">
+                                            <div class="col-12 learts-mb-20">
+                                                <div class="form-check">
+                                                    <input type="checkbox" name="remember" class="form-check-input" id="rememberMe">
+                                                    <label class="form-check-label" for="rememberMe">Recordarme</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 learts-mb-20">
+                                                <a href="lost-password.html" class="fw-400">Olvidaste tu contraseña?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="user-login-register">
+                        <div class="login-register-title">
+                            <h2 class="title">Registrate</h2>
+                            <p class="desc">Si no tienes una cuenta, registrate</p>
+                        </div>
+                        <div class="login-register-form">
+                            <form method="post" action="{% url 'login-registro' %}">
+                            {% csrf_token %}
+                                <div class="row learts-mb-n50">
+                                    <div class="col-12 learts-mb-20">
+                                        <label for="registerEmail">Nombre <abbr class="required">*</abbr></label>
+                                        <input name="nombre" type="text" id="nombre" value="{{ register_form.nombre.value|default:'' }}">
+                                        {% if register_form.nombre.errors %}
+                                            <div class="text-danger">{{ register_form.nombre.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 learts-mb-20">
+                                        <label for="registerEmail">Correo electrónico <abbr class="required">*</abbr></label>
+                                        <input name="email" type="email" id="registerEmail" value="{{ register_form.email.value|default:'' }}">
+                                        {% if register_form.email.errors %}
+                                            <div class="text-danger">{{ register_form.email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 learts-mb-20">
+                                        <label for="registerEmail">Contraseña <abbr class="required">*</abbr></label>
+                                        <input name="password1" type="password" id="password1" value="{{ register_form.password1.value|default:'' }}">
+                                        {% if register_form.password1.errors %}
+                                            <div class="text-danger">{{ register_form.password1.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 learts-mb-20">
+                                        <label for="registerEmail">Repite tu contraseña <abbr class="required">*</abbr></label>
+                                        <input name="password2" type="password" id="password2" value="{{ register_form.password2.value|default:'' }}">
+                                        {% if register_form.password2.errors %}
+                                            <div class="text-danger">{{ register_form.password2.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-12 learts-mb-50">
+                                        <p>Tu contraseña debe tener al menos 8 caracteres y no puede estar compuesta solo por números.</p>
+                                    </div>
+                                    <div class="col-12 text-center learts-mb-50">
+                                        <button name="register_submit" type="submit" class="btn btn-dark btn-outline-hover-dark">Registrate</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Login & Register Section End -->
+
+{% endblock %}

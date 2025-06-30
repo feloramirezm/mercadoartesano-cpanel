@@ -1,0 +1,275 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+
+<!-- Page Title/Header Start -->
+<div class="page-title-section section" data-bg-image="{% static 'assets/images/bg/page-title-2.png' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="page-title">
+                    <h1 class="title">Tienda</h1>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'tienda' %}">Tienda</a></li>
+                            <li class="breadcrumb-item active">{{ producto.nombre }}</li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Title/Header End -->
+<!-- Single Products Section Start -->
+<div class="section section-fluid section-padding border-bottom">
+    <div class="container">
+        <div class="row learts-mb-n40">
+            <!-- Product Images Start -->
+            <div class="col-lg-6 col-12 learts-mb-40">
+                <div class="product-images vertical">
+                    <button class="product-gallery-popup hintT-left" data-hint="Click to enlarge">
+                    <i class="fas fa-expand"></i>
+                    </button>
+
+                   
+                    <div class="product-gallery-slider">
+                        {% for imagen in producto.imagenes.all|dictsort:"orden" %}
+                            <div class="product-zoom" data-image="{{ imagen.imagen.url }}">
+                                <img alt="{{ producto.nombre }}" src="{{ imagen.imagen.url }}" />
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="product-thumb-slider-vertical">
+                        {% for imagen in producto.imagenes.all|dictsort:"orden" %}
+                            <div class="item">
+                                <img alt="{{ producto.nombre }}" src="{{ imagen.imagen.url }}" />
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- Product Images End -->
+
+            <!-- Product Summery Start -->
+            <div class="col-lg-6 col-12 learts-mb-40">
+                <div class="product-summery product-summery-center">
+                        <div class="product-ratings">
+                            <span class="star-rating">
+                                <span class="rating-active" style="width: 100%;">ratings</span>
+                            </span>
+                        </div>
+                    <h3 class="product-title">{{ producto.nombre }}</h3>
+                    <div class="product-price-detalle">
+                            <span class="price">
+                                {% if producto.precio_anterior %}
+                                    <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                                    <span class="new">${{ producto.precio|intcomma }}</span>
+                                {% else %}
+                                    <span class="normal">${{ producto.precio|intcomma }}</span>
+                                {% endif %}
+                            </span>           
+                    </div>
+                    <div class="product-description"><p>{{ producto.descripcion }}</p></div>
+                    <div class="product-variations">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <tr>
+                                        <td class="label">
+                                            <span>Cantidad</span>
+                                        </td>
+                                        <td class="value">
+                                            <div class="product-quantity">
+                                                <span class="qty-btn minus"><i class="ti-minus"></i></span>
+                                                <input class="input-qty" type="text" value="1"/>
+                                                <span class="qty-btn plus"><i class="ti-plus"></i></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="product-buttons">
+                        <a class="btn btn-icon btn-outline-body btn-hover-dark hintT-top" data-hint="Agregar a Favoritos" href="#"><i class="far fa-heart"></i></a>
+                        <a class="btn btn-dark btn-outline-hover-dark" href="#"><i class="fas fa-shopping-cart"></i> Agregar al Carrito </a>
+                    </div>
+                    <div class="product-meta">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="label"><span>SKU</span></td>
+                                    <td class="value">040423</td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><span>Categoría</span></td>
+                                    <td class="value">
+                                        <ul class="product-category">
+                                            <li><a href="#">{{ producto.categoria }}</a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><span>Compartir en</span></td>
+                                    <td class="va">
+                                        <div class="product-share">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                                            <a href="#"><i class="far fa-envelope"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Summery End -->
+        </div>
+    </div>
+</div>
+<!-- Single Products Section End -->
+
+<!-- Single Products Infomation Section Start -->
+<div class="section section-padding border-bottom">
+    <div class="container">
+        <ul class="nav product-info-tab-list">
+            <li><a class="active" data-bs-toggle="tab" href="#tab-pwb_tab">Sobre el Artesano</a></li>
+            <li><a data-bs-toggle="tab" href="#tab-additional_information">Información Adicional</a></li>
+        </ul>
+        <div class="tab-content product-infor-tab-content">
+            <div class="tab-pane fade show active" id="tab-pwb_tab">
+                <div class="row learts-mb-n30">
+                    <div class="col-12 learts-mb-30">
+                        <div class="row learts-mb-n10">
+                            {% if producto.artesano %}
+                            <div class="col-lg-2 col-md-3 col-12 learts-mb-10">
+                                <img src="{{ producto.artesano.foto.url }}" alt="{{ producto.artesano.nombre }}" class="img-fluid rounded">
+                            </div>
+                            <div class="col learts-mb-10">
+                                <h5 class="fw-600 mb-2">{{ producto.artesano.nombre }}</h5>
+                                <p>{{ producto.artesano.descripcion }}</p>
+                            </div>
+                            {% else %}
+                            <div class="col-12">
+                                <p>No hay información disponible del artesano.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-additional_information">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 col-12 mx-auto">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Medidas</td>
+                                        <td>Ancho: {{ producto.ancho }} cm | Largo: {{ producto.largo }} cm | Alto: {{ producto.alto }} cm</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peso</td>
+                                        <td>{{ producto.peso }} kg</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Single Products Infomation Section End -->
+
+<!-- Recommended Products Section Start -->
+<div class="section section-padding">
+    <div class="container">
+        
+        <!-- Section Title Start -->
+        <div class="section-title2 text-center">
+            <h2 class="title">También podría gustarte</h2>
+        </div>
+        <!-- Section Title End -->
+
+        <!-- Products Start -->
+         <div class="product-carousel">
+            {% for producto in productos_recomendados %}
+            <div class="col">
+                <div class="product">
+                    <div class="product-thumb">
+                        <a href="{% url 'detalle_producto' slug=producto.slug %}" class="image">
+                            {% if producto.descuento %}
+                                <span class="product-badges">
+                                    <span class="onsale">-{{ producto.descuento }}%</span>
+                                </span>
+                            {% endif %}
+                            <img src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                            <img class="image-hover" src="{{ producto.imagen_destacada.imagen.url }}" alt="{{ producto.nombre }}">
+                        </a>
+                        <a href="{% url 'favoritos' %}" class="add-to-wishlist hintT-left" data-hint="Agregar a Favoritos">
+                            <i class="far fa-heart"></i>
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <h6 class="title">
+                            <a href="{% url 'detalle_producto' slug=producto.slug %}">{{ producto.nombre }}</a>
+                        </h6>
+                        <span class="price">
+                            {% if producto.precio_anterior %}
+                                <span class="old">${{ producto.precio_anterior|intcomma }}</span>
+                            {% endif %}
+                            <span class="new">${{ producto.precio|intcomma }}</span>
+                        </span>
+                        <div class="product-buttons">
+                            <a href="#quickViewModal" data-bs-toggle="modal" class="product-button hintT-top" data-hint="Ver detalles" data-product-id="{{ producto.id }}">
+                                <i class="fas fa-search"></i>
+                            </a>
+                            <a href="#" class="product-button hintT-top" data-hint="Agregar al Carrito">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Products End -->
+    </div>
+</div>
+<!-- Recommended Products Section End -->
+
+<!-- Galeria de producto -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const openGalleryBtn = document.getElementById("open-gallery");
+    openGalleryBtn.addEventListener("click", function () {
+        const galleryElements = document.querySelectorAll(".product-gallery-slider .product-zoom img");
+
+        const items = Array.from(galleryElements).map(img => ({
+            src: img.src,
+            w: img.naturalWidth || 800,
+            h: img.naturalHeight || 1000
+        }));
+
+        const pswpElement = document.querySelectorAll('.pswp')[0];
+        const gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+            index: 0,
+            bgOpacity: 0.9,
+            showHideOpacity: true
+        });
+        gallery.init();
+    });
+});
+</script>
+
+{% endblock %}
