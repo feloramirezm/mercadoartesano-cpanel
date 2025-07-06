@@ -1,28 +1,25 @@
-name: Deploy via LFTP (Más estable)
+name: Deploy via LFTP
 
 on:
   push:
-    branches: [ "main" ]      # Se activa al hacer push a "main"
+    branches: [ "main" ]
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest    # Usa un servidor Ubuntu para el despliegue
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4  # Descarga código de GitHub
+      - uses: actions/checkout@v4
 
-      - name: Install LFTP         # Instala LFTP (herramienta más robusta que FTP)
+      - name: Install LFTP
         run: sudo apt-get install -y lftp
 
-      - name: Sync files via LFTP  # Sincroniza solo archivos modificados
+      - name: Sync files via LFTP
         run: |
           lftp -e "
-            set ftp:ssl-allow no;  # Desactiva SSL (más estable para conexiones problemáticas)
-            set net:timeout 60;    # Evita que la conexión se cierre rápido
-            mirror -R -v --only-newer ./ /public_html/
-              -x .git/             # Excluye la carpeta .git
-              -x .github/          # Excluye la carpeta .github
-              -x venv/;            # Excluye el entorno virtual
+            set ftp:ssl-allow no;
+            set net:timeout 60;
+            mirror -R -v --only-newer ./ /public_html/ -x .git/ -x .github/ -x venv/;
             quit
           " -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }}
 

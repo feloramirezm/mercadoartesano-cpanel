@@ -8,3 +8,6 @@ __pycache__/
 
 # Carpeta con estaticos
 staticfiles/
+
+# Respaldo base de datos
+db-respaldo.sqlite3
