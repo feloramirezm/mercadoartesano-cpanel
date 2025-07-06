@@ -16,12 +16,11 @@ jobs:
 
       - name: Sync files via LFTP
         run: |
-          lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }} <<EOF
-          set ftp:ssl-allow no
-          set net:timeout 120
-          set net:max-retries 3
-          set net:reconnect-interval-base 10
-          mirror -R -v --only-newer ./ /public_html/ -x .git/ -x .github/ -x venv/
-          quit
-          EOF
+          lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} -e "
+            set ftp:ssl-allow no;
+            set net:timeout 60;
+            set ftp:passive-mode true;  # ¡Clave para cPanel!
+            mirror -R -v -X .git/ -X .github/ -X venv/ ./ /public_html/;
+            exit
+          " ${{ secrets.FTP_HOST }}
 
