@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Ignorar archivos estáticos y media
+    RewriteRule ^(static/|media/|admin/).* - [L]
+
+    # Redirigir todo a Django (via Passenger si está activo)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.php [L]
+</IfModule>
+
+# Configuración para Passenger (opcional)
+PassengerAppRoot /home3/cme110440/public_html
+PassengerBaseURI /
+PassengerPython /home3/cme110440/virtualenv/public_html/venv/bin/python

@@ -5,3 +5,6 @@ __pycache__/
 
 # Variables de entorno con claves
 .env
+
+# Carpeta con estaticos
+staticfiles/

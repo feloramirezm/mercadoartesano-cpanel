@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["mercadoartesano.cl", ".elasticbeanstalk.com"]
+ALLOWED_HOSTS = ["mercadoartesano.cl", "www.mercadoartesano.cl"]
 
 DATABASES = {
     "default": {
