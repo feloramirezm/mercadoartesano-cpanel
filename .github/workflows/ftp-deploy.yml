@@ -22,6 +22,15 @@ jobs:
             set ftp:passive-mode on
             set ftp:prefer-epsv no
             set net:max-retries 3
-            mirror -R -v -X .git/ -X .github/ -X venv/ ./ /public_html/
+            mirror -R -v --only-newer --no-perms \
+            -X .git/ \
+            -X .github/ \
+            -X venv/ \
+            -X __pycache__/ \
+            -X *.pyc \
+            -X .env \
+            -X staticfiles/ \
+            -X db-respaldo.sqlite3 \
+            ./ /public_html/
             bye
             EOF
