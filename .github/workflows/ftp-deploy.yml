@@ -19,8 +19,12 @@ jobs:
           server:   ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          protocol: ftps          # usa FTPS explícito (TLS) en el puerto 21
+          protocol: ftp          # usa FTPS explícito (TLS) en el puerto 21
           port: 21
           local-dir: ./           # raíz del repo
           server-dir: /public_html/mercadoartesano/
           log-level: standard
+          dangerous-clean-slate: false
+          retries: 3           # Reintentar si falla
+          timeout: 120000      # 120 segundos de timeout (en ms)
+

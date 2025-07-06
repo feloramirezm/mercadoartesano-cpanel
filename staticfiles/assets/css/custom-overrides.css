@@ -1,0 +1,88 @@
+/* Estilos personalizados para la página de producto */
+
+.product-price-detalle .price {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    display: inline-block;
+}
+
+.product-price-detalle .price .old {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.product-price-detalle .price .new {
+    color: #f8796c;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.product-price-detalle .price .normal {
+    color: #333;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.eliminafiltros {
+    color: #f8796c;
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
+    margin-top: 0px;      
+    margin-bottom: 60px;   
+    text-decoration: none;
+    padding: 4px 8px;
+    background: #fce8e6;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.eliminafiltros:hover {
+    background: #ffc7c2;
+}
+
+.select2-container {
+    z-index: 10000 !important;
+}
+
+#offcanvas-search {
+    overflow: visible !important;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+#offcanvas-search .inner {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.offcanvas-search-form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.offcanvas-search-form form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+#search-results {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 10px;
+    margin-top: 1rem;
+    max-height: 100%;
+}
