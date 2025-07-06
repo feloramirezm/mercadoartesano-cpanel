@@ -16,10 +16,12 @@ jobs:
 
       - name: Sync files via LFTP
         run: |
-          lftp -e "
-            set ftp:ssl-allow no;
-            set net:timeout 60;
-            mirror -R -v --only-newer ./ /public_html/ -x .git/ -x .github/ -x venv/;
-            quit
-          " -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }}
+          lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }} <<EOF
+          set ftp:ssl-allow no
+          set net:timeout 120
+          set net:max-retries 3
+          set net:reconnect-interval-base 10
+          mirror -R -v --only-newer ./ /public_html/ -x .git/ -x .github/ -x venv/
+          quit
+          EOF
 
