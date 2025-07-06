@@ -24,3 +24,5 @@ jobs:
           local-dir: ./           # raíz del repo
           server-dir: /public_html/mercadoartesano/
           log-level: standard
+
+# Trigger deploy test
