@@ -1,30 +1,28 @@
-name: Deploy via FTP to cPanel
+name: Deploy via LFTP (Más estable)
 
 on:
   push:
-    branches: [ "main" ]      # despliega cada push a main
+    branches: [ "main" ]      # Se activa al hacer push a "main"
 
 jobs:
-  ftp-deploy:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest    # Usa un servidor Ubuntu para el despliegue
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0      # necesario para detectar archivos borrados
+      - uses: actions/checkout@v4  # Descarga código de GitHub
 
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.1
-        with:
-          server:   ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          protocol: ftp          # usa FTPS explícito (TLS) en el puerto 21
-          port: 21
-          local-dir: ./           # raíz del repo
-          server-dir: /public_html/mercadoartesano/
-          log-level: standard
-          dangerous-clean-slate: false
-          retries: 3           # Reintentar si falla
-          timeout: 120000      # 120 segundos de timeout (en ms)
+      - name: Install LFTP         # Instala LFTP (herramienta más robusta que FTP)
+        run: sudo apt-get install -y lftp
+
+      - name: Sync files via LFTP  # Sincroniza solo archivos modificados
+        run: |
+          lftp -e "
+            set ftp:ssl-allow no;  # Desactiva SSL (más estable para conexiones problemáticas)
+            set net:timeout 60;    # Evita que la conexión se cierre rápido
+            mirror -R -v --only-newer ./ /public_html/
+              -x .git/             # Excluye la carpeta .git
+              -x .github/          # Excluye la carpeta .github
+              -x venv/;            # Excluye el entorno virtual
+            quit
+          " -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }}
 
