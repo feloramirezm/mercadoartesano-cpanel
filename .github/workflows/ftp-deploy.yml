@@ -31,6 +31,6 @@ jobs:
             -X .env \
             -X staticfiles/ \
             -X db-respaldo.sqlite3 \
-            ./ /public_html/
+            ./ /python_app/
             bye
             EOF

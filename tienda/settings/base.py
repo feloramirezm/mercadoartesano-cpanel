@@ -87,4 +87,4 @@ STATICFILES_DIRS = [
     BASE_DIR / "static" / "assets",
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
