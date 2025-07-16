@@ -2,7 +2,7 @@ name: Deploy via LFTP
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "" ]
 
 jobs:
   deploy:
