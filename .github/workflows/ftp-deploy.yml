@@ -1,78 +1,36 @@
-name: Optimized FTP Deploy
+name: Deploy via LFTP
 
 on:
   push:
-    branches: [main]
-    # Solo activar para cambios en código (no excluir todo)
-    paths:
-      - '**.py'
-      - '**.html'
-      - '**.js'
-      - '**.css'
-      - 'requirements.txt'
-      - 'manage.py'
-      - '!staticfiles/**'  # Excluir estáticos grandes
-      - '!media/**'        # Excluir media grande
-      - '!__pycache__/**'
-      - '!*.sqlite3'
-      - '!*.log'
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v44
-        with:
-          separator: ','
-          
+
       - name: Install LFTP
         run: sudo apt-get install -y lftp
-        
-      - name: Deploy changed files
-        if: steps.changed-files.outputs.all_changed_files != ''
+
+      - name: Sync files via LFTP
         run: |
-          echo "Archivos cambiados: ${{ steps.changed-files.outputs.all_changed_files }}"
-          
-          lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
-          set ftp:ssl-allow no
-          set net:timeout 30
-          set ftp:passive-mode on
-          set mirror:parallel 8
-          
-          ${{ steps.changed-files.outputs.all_changed_files | split(',') | toJson }}
-          | while read -r file; do
-            put -O /python_app/ "\$file"
-          done
-          
-          bye
-          EOF
-          
-      - name: Full sync if important changes
-        if: contains(steps.changed-files.outputs.all_changed_files, 'requirements.txt') || steps.changed-files.outputs.all_changed_files == ''
-        run: |
-          lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
-          set ftp:ssl-allow no
-          set net:timeout 60
-          set ftp:passive-mode on
-          mirror -R -v --only-newer --no-perms --parallel=8 \
-          -X .git \
-          -X .github \
-          -X .vscode \
-          -X venv \
-          -X __pycache__ \
-          -X '*.pyc' \
-          -X .env \
-          -X db-*.sqlite3 \
-          -X staticfiles \
-          -X media \
-          -X '*.log' \
-          -X '.DS_Store' \
-          ./ /python_app/
-          bye
-          EOF
+            lftp -d -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
+            set ftp:ssl-allow no
+            set net:timeout 120
+            set ftp:passive-mode on
+            set ftp:prefer-epsv no
+            set net:max-retries 3
+            mirror -R -v --only-newer --no-perms \
+            -X .git/ \
+            -X .github/ \
+            -X venv/ \
+            -X __pycache__/ \
+            -X *.pyc \
+            -X .env \
+            -X staticfiles/ \
+            -X db-respaldo.sqlite3 \
+            ./ /python_app/
+            bye
+            EOF
