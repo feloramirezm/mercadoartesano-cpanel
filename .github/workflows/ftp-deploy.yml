@@ -1,74 +1,65 @@
-name: Lightning Fast FTP Deploy
+name: Optimized FTP Deploy
 
 on:
   push:
     branches: [main]
+    # Solo activar para cambios en código (no excluir todo)
     paths:
-      - '!staticfiles/**'
-      - '!media/**'
+      - '**.py'
+      - '**.html'
+      - '**.js'
+      - '**.css'
+      - 'requirements.txt'
+      - 'manage.py'
+      - '!staticfiles/**'  # Excluir estáticos grandes
+      - '!media/**'        # Excluir media grande
       - '!__pycache__/**'
       - '!*.sqlite3'
       - '!*.log'
-      - '!*.pyc'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 5  # Falla rápido si hay problemas
+    timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1  # Solo el último commit
-        
+      
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
         with:
-          separator: ' '
+          separator: ','
           
       - name: Install LFTP
         run: sudo apt-get install -y lftp
         
-      - name: Sync only changed files
+      - name: Deploy changed files
         if: steps.changed-files.outputs.all_changed_files != ''
         run: |
+          echo "Archivos cambiados: ${{ steps.changed-files.outputs.all_changed_files }}"
+          
           lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
           set ftp:ssl-allow no
           set net:timeout 30
           set ftp:passive-mode on
-          set ftp:prefer-epsv no
-          set net:max-retries 1
-          set mirror:parallel-transfer-count 8
           set mirror:parallel 8
-          set mirror:use-pget-n 5
-          mirror -R -v --only-newer --no-perms --parallel=8 \
-          -X .git \
-          -X .github \
-          -X .vscode \
-          -X venv \
-          -X __pycache__ \
-          -X '*.pyc' \
-          -X .env \
-          -X db-*.sqlite3 \
-          -X staticfiles \
-          -X media \
-          -X '*.log' \
-          -X '.DS_Store' \
-          --file-list <(echo "${{ steps.changed-files.outputs.all_changed_files }}") \
-          ./ /python_app/
+          
+          ${{ steps.changed-files.outputs.all_changed_files | split(',') | toJson }}
+          | while read -r file; do
+            put -O /python_app/ "\$file"
+          done
+          
           bye
           EOF
           
-      - name: Full sync on major changes
-        if: steps.changed-files.outputs.all_changed_files == '' || contains(steps.changed-files.outputs.all_changed_files, 'requirements.txt')
+      - name: Full sync if important changes
+        if: contains(steps.changed-files.outputs.all_changed_files, 'requirements.txt') || steps.changed-files.outputs.all_changed_files == ''
         run: |
           lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
           set ftp:ssl-allow no
           set net:timeout 60
           set ftp:passive-mode on
-          set ftp:prefer-epsv no
-          set net:max-retries 2
           mirror -R -v --only-newer --no-perms --parallel=8 \
           -X .git \
           -X .github \
