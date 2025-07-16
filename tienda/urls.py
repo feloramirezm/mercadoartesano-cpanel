@@ -16,16 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
 from productos import views
 
-# Vista de prueba
-def test_view(request):
-    return HttpResponse("Funciona!", content_type="text/plain")
-
 urlpatterns = [
-   # Vista de prueba
-   path('test/', test_view),
    
     # Admin
     path('admin/', admin.site.urls),
