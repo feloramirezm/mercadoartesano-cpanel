@@ -16,21 +16,25 @@ jobs:
 
       - name: Sync files via LFTP
         run: |
-            lftp -d -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
+          lftp -d -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ftp://${{ secrets.FTP_HOST }} <<EOF
             set ftp:ssl-allow no
             set net:timeout 120
             set ftp:passive-mode on
             set ftp:prefer-epsv no
             set net:max-retries 3
-            mirror -R -v --only-newer --no-perms \
-            -X .git/ \
-            -X .github/ \
-            -X venv/ \
-            -X __pycache__/ \
-            -X *.pyc \
-            -X .env \
-            -X staticfiles/ \
-            -X db-respaldo.sqlite3 \
-            ./ /python_app/
+            mirror -R \
+              --only-newer \
+              --parallel=5 \
+              --use-cache \
+              --no-perms \
+              --exclude-glob .git/ \
+              --exclude-glob .github/ \
+              --exclude-glob venv/ \
+              --exclude-glob __pycache__/ \
+              --exclude-glob *.pyc \
+              --exclude-glob .env \
+              --exclude-glob staticfiles/ \
+              --exclude-glob db-respaldo.sqlite3 \
+              ./ /python_app/
             bye
-            EOF
+          EOF
