@@ -2,7 +2,7 @@ name: Deploy with LFTP and Hash Check
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main3" ]
 
 jobs:
   deploy:

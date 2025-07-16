@@ -2,7 +2,7 @@ name: Deploy via LFTP
 
 on:
   push:
-    branches: [ "" ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -33,7 +33,7 @@ jobs:
               --exclude-glob __pycache__/ \
               --exclude-glob *.pyc \
               --exclude-glob .env \
-              --exclude-glob staticfiles/ \
+              --exclude-glob static/ \
               --exclude-glob db-respaldo.sqlite3 \
               ./ /python_app/
             bye
